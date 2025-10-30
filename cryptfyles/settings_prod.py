@@ -59,14 +59,9 @@ SECURE_HSTS_PRELOAD = True
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', cast=Csv())
 
-# Explicitly set ALLOWED_HOSTS if not in environment
-if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = [
-        '*.railway.app',
-        'cryptfyles-production.up.railway.app',
-        'localhost',
-        '127.0.0.1',
-    ]
+ALLOWED_HOSTS = [
+    '*',
+]
 
 
 # Cloudinary Configuration for File Storage
