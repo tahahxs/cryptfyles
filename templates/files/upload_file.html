@@ -1,0 +1,91 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Upload File - {{ group.name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>📤 Upload File to {{ group.name }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <strong>🔐 Security Note:</strong>
+                    <ul class="mb-0">
+                        <li>File will be encrypted before upload</li>
+                        <li>All {{ group.member_count }} group member(s) will be able to access it</li>
+                        <li>Maximum file size: 10GB</li>
+                    </ul>
+                </div>
+                
+                <form method="post" enctype="multipart/form-data" id="uploadForm">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.file.id_for_label }}" class="form-label">Select File *</label>
+                        {{ form.file }}
+                        {% if form.file.errors %}
+                            <div class="text-danger">{{ form.file.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">
+                            {{ form.file.help_text }}
+                        </small>
+                    </div>
+                    
+                    <div class="mb-3" id="progressContainer" style="display:none;">
+                        <label class="form-label">Upload Progress:</label>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" 
+                                 id="progressBar"
+                                 style="width: 0%">
+                                0%
+                            </div>
+                        </div>
+                        <small class="text-muted" id="progressText">Encrypting and uploading...</small>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" id="uploadBtn">
+                            📤 Upload & Encrypt
+                        </button>
+                        <a href="{% url 'groups:detail' group.pk %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5>How Encryption Works:</h5>
+                <ol>
+                    <li>Your file is encrypted with AES-256-GCM</li>
+                    <li>The encryption key is encrypted separately for each group member with their RSA public key</li>
+                    <li>Only group members can decrypt and access the file</li>
+                    <li>The server never sees your unencrypted file</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    // Show progress bar
+    document.getElementById('progressContainer').style.display = 'block';
+    document.getElementById('uploadBtn').disabled = true;
+    document.getElementById('uploadBtn').innerHTML = '⏳ Uploading...';
+    
+    // Simulate progress (real implementation would need AJAX)
+    let progress = 0;
+    let interval = setInterval(function() {
+        progress += 10;
+        if (progress <= 90) {
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressBar').innerHTML = progress + '%';
+        }
+    }, 500);
+});
+</script>
+{% endblock %}

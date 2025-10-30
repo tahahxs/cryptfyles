@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+
+{% block title %}My Files - CryptFyles{% endblock %}
+
+{% block content %}
+<h1>📁 My Files</h1>
+
+{% if files %}
+    <div class="card">
+        <div class="card-body">
+            <p class="text-muted">You have access to {{ files.count }} file{{ files.count|pluralize }}.</p>
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th>Size</th>
+                            <th>Group</th>
+                            <th>Uploaded By</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in files %}
+                            <tr>
+                                <td>
+                                    <strong>{{ file.filename }}</strong>
+                                </td>
+                                <td>{{ file.get_size_display }}</td>
+                                <td>
+                                    <a href="{% url 'groups:detail' file.group.pk %}">
+                                        {{ file.group.name }}
+                                    </a>
+                                </td>
+                                <td>{{ file.uploaded_by.username }}</td>
+                                <td>{{ file.uploaded_at|date:"M d, Y H:i" }}</td>
+                                <td>
+    <a href="{% url 'files:download' file.id %}" 
+       class="btn btn-sm btn-success">
+        ⬇️ Download
+    </a>
+    {% if file.uploaded_by == user or file.group.created_by == user %}
+        <a href="{% url 'files:delete' file.id %}" 
+           class="btn btn-sm btn-danger">
+            🗑️ Delete
+        </a>
+    {% endif %}
+</td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <h5>No files yet</h5>
+        <p>Files shared in your groups will appear here.</p>
+        <a href="{% url 'groups:list' %}" class="btn btn-primary">Go to Groups</a>
+    </div>
+{% endif %}
+{% endblock %}

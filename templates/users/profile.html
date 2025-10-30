@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Profile - CryptFyles{% endblock %}
+
+{% block content %}
+<h1>Your Profile</h1>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">Account Information</h5>
+        
+        <table class="table">
+            <tr>
+                <th>Username:</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Date Joined:</th>
+                <td>{{ user.date_joined|date:"F d, Y" }}</td>
+            </tr>
+            <tr>
+                <th>Last Login:</th>
+                <td>{{ user.last_login|date:"F d, Y H:i" }}</td>
+            </tr>
+            <tr>
+                <th>RSA Keys:</th>
+                <td>
+                    {% if user.has_rsa_keys %}
+                        <span class="badge bg-success">✓ Generated</span>
+                    {% else %}
+                        <span class="badge bg-danger">✗ Not Generated</span>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">🔐 Encryption Status</h5>
+        <p>Your account is protected with:</p>
+        <ul>
+            <li>Password: Django PBKDF2-SHA256 hashing</li>
+            <li>RSA Keys: 2048-bit RSA encryption</li>
+            <li>Private Key: Encrypted with your password</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

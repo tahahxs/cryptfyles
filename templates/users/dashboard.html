@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard - CryptFyles{% endblock %}
+
+{% block content %}
+<h1>Welcome, {{ user.username }}! 👋</h1>
+
+<div class="row mt-4">
+   <div class="col-md-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">👥 My Groups</h5>
+            <p class="card-text">View and manage your file sharing groups.</p>
+            <a href="{% url 'groups:list' %}" class="btn btn-primary">View Groups</a>
+        </div>
+    </div>
+</div>
+
+    
+  <div class="col-md-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">📁 My Files</h5>
+            <p class="card-text">Browse your encrypted files.</p>
+            <a href="{% url 'files:list' %}" class="btn btn-primary">View Files</a>
+        </div>
+    </div>
+</div>
+
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">👤 Profile</h5>
+                <p class="card-text">View your account information.</p>
+                <a href="{% url 'users:profile' %}" class="btn btn-primary">View Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-info mt-4">
+    <h5>🔐 Your Encryption Keys are Active!</h5>
+    <p>Your files will be encrypted with RSA-2048 + AES-256-GCM encryption.</p>
+</div>
+{% endblock %}
