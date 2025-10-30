@@ -90,4 +90,4 @@ LOGGING = {
     },
 }
 
-print("✅ Production settings loaded successfully!")
+print("✅ Production settings loaded successfully! - Redeployed")
