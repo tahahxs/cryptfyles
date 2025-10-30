@@ -14,7 +14,21 @@ DEBUG = False
 SECRET_KEY = config('SECRET_KEY')
 
 # Allowed hosts (Railway domains)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+# Hardcoded for production - environment variable as fallback
+ALLOWED_HOSTS = [
+    '*.railway.app',
+    'cryptfyles-production.up.railway.app',
+    'localhost',
+    '127.0.0.1',
+]
+
+# If ALLOWED_HOSTS is provided as env var, use it
+try:
+    env_allowed_hosts = config('ALLOWED_HOSTS', default='', cast=Csv())
+    if env_allowed_hosts:
+        ALLOWED_HOSTS = env_allowed_hosts
+except:
+    pass
 
 # Database Configuration (PostgreSQL from Railway)
 DATABASES = {
