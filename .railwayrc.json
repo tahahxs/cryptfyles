@@ -1,0 +1,6 @@
+{
+  "environmentVariables": {
+    "DEBUG": "False",
+    "DJANGO_SETTINGS_MODULE": "cryptfyles.settings_prod"
+  }
+}
